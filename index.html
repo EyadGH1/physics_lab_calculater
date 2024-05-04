@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/ed4c7da091.js" crossorigin="anonymous"></script>
+    <title>My Website</title>
+  </head>
+  <body>
+    <header style=" background-color: aqua;">
+      <h1 style = "left: 40%;
+      top: 30%;
+      position: relative;
+      "> physics lab calculater</h1>
+    </header>
+    <div class="container">
+    
+       <!-- slope -->
+
+    <div class =  "slope"><h2>calculate the slope</h2>
+      <div class="slope-calculater" >
+      <label> eneter x1 </label>
+      <input class = "points-values" type="text" id = "x1"></input>
+      <label> eneter x2 </label>
+      <input class = "points-values" type="text"id= "x2"></input>
+      <label> eneter y1 </label>
+      <input class = "points-values" type="text" id = "y1"></input>
+      <label> eneter y2 </label>
+      <input class = "points-values" type="text" id = "y2"></input>
+      <button id = "slopeBtn"> submit values</button>
+     </div>
+     <div class ="slope answer">
+     <h3>the slope is:</h3>
+     <p Id="slope"><p>
+     </div>
+    </div>
+
+    <hr>
+    <!-- %errore! -->
+
+    <div class="errore">
+      <h2> calculate the % error</h2>
+      <label> eneter x theiortical</label>
+      <input class = "points-values" type="number" id = "x-theo"></input>
+      <label> eneter x experemental </label>
+      <input class = "points-values" type="number"id= "x-exp"></input>
+      <button id="errore-btn">submit values</button>
+      <h2> the %error is:</h2>
+      <p Id="errore"></p>
+    </div>
+     <!-- %subbingerrore -->
+     <hr>
+     <div class="subbing-errore">
+      <h2>calculate submition or subtraction equations errore</h2>
+      <label>eneter equation (do not add spaces)</label>
+      <input id = "subbing-equation"type="text">
+      <button id="sub-btn">submit</button>
+      <h2> entering errors :</h2>
+      <div id="errors-entering">
+      </div>
+      <input type="reset" Id="sub-reset">
+     </div>
+     <!-- %multi-->
+     <hr>
+     <h2> calculate multibliction or dividtion error</h2>
+     <label for="">enter answer</label>
+     <input id= "multi-answer">
+     <button id="multi-answer-btn"> submit</button>
+     <br>
+     <label for="mult-equation">eneter equation</label>
+     <input id = "multing-equation"type="text">
+     <button id="multi-btn">submit</button>
+     <div id="multi-errors-field">
+      <input type="reset" Id="mul-reset">
+     </div>
+     <hr>
+     <div id="powe-error">
+      <h2> calculate the error in power equations</h2>
+      <!-- <label for="">enter r (the result)</label>
+      <input type="number" id="r">
+      <button id="r-btn">submit</button>
+     -->
+      <label for="">enter equation</label>
+      <input type="text" id="power-eq">
+      <!--
+      <button id="p-eq-btn">submit</button>
+    -->
+      <label for="">enter var value</label>
+      <input type="text" id="var-value">
+      <label for="">enter var error</label>
+      <input type="text" id="var-error">
+      <button id="v-v-b">submit</button>
+      <div id="power-field"></div>
+      <button id="p-reset"> reset</button>
+     </div>
+     <hr>
+    </div>
+     <footer>
+      <div class="container">
+      <div class="footer-row">
+        <div class="phara"><h2> why does the physics lab calculater look bad ? </h2>
+        <p> because i made it in harry 
+          and wasnt ment to be uploaded 
+          anywhere but i think it can be usefull to others that are going throw physics lab 104 106 </p>
+        
+        </div>
+        <hr style="rotate: 180;
+        margin-left: 22px ; color: white;">
+      <div class="social"> 
+        <h2 class="phara-h"  style="text-align: center;"> my instagram account: </h2>
+      <ul class="footer-links">
+        <li  class="footer-link"> <a href="https://www.instagram.com/a_hypocrite105/" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+      </ul>
+      </div>
+    </div>
+    </div>
+     </footer>
+	<script src="index.js"></script>
+  </body>
+</html>
