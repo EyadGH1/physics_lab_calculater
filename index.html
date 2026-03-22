@@ -1,122 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="style.css">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Physics Lab Calculator</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/ed4c7da091.js" crossorigin="anonymous"></script>
-    <title>My Website</title>
-  </head>
-  <body>
-    <header style=" background-color: aqua;">
-      <h1 style = "left: 40%;
-      top: 30%;
-      position: relative;
-      "> physics lab calculater</h1>
-    </header>
-    <div class="container">
-    
-       <!-- slope -->
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <div class =  "slope"><h2>calculate the slope</h2>
-      <div class="slope-calculater" >
-      <label> eneter x1 </label>
-      <input class = "points-values" type="text" id = "x1"></input>
-      <label> eneter x2 </label>
-      <input class = "points-values" type="text"id= "x2"></input>
-      <label> eneter y1 </label>
-      <input class = "points-values" type="text" id = "y1"></input>
-      <label> eneter y2 </label>
-      <input class = "points-values" type="text" id = "y2"></input>
-      <button id = "slopeBtn"> submit values</button>
-     </div>
-     <div class ="slope answer">
-     <h3>the slope is:</h3>
-     <p Id="slope"><p>
-     </div>
-    </div>
-
-    <hr>
-    <!-- %errore! -->
-
-    <div class="errore">
-      <h2> calculate the % error</h2>
-      <label> eneter x theiortical</label>
-      <input class = "points-values" type="number" id = "x-theo"></input>
-      <label> eneter x experemental </label>
-      <input class = "points-values" type="number"id= "x-exp"></input>
-      <button id="errore-btn">submit values</button>
-      <h2> the %error is:</h2>
-      <p Id="errore"></p>
-    </div>
-     <!-- %subbingerrore -->
-     <hr>
-     <div class="subbing-errore">
-      <h2>calculate submition or subtraction equations errore</h2>
-      <label>eneter equation (do not add spaces)</label>
-      <input id = "subbing-equation"type="text">
-      <button id="sub-btn">submit</button>
-      <h2> entering errors :</h2>
-      <div id="errors-entering">
-      </div>
-      <input type="reset" Id="sub-reset">
-     </div>
-     <!-- %multi-->
-     <hr>
-     <h2> calculate multibliction or dividtion error</h2>
-     <label for="">enter answer</label>
-     <input id= "multi-answer">
-     <button id="multi-answer-btn"> submit</button>
-     <br>
-     <label for="mult-equation">eneter equation</label>
-     <input id = "multing-equation"type="text">
-     <button id="multi-btn">submit</button>
-     <div id="multi-errors-field">
-      <input type="reset" Id="mul-reset">
-     </div>
-     <hr>
-     <div id="powe-error">
-      <h2> calculate the error in power equations</h2>
-      <!-- <label for="">enter r (the result)</label>
-      <input type="number" id="r">
-      <button id="r-btn">submit</button>
-     -->
-      <label for="">enter equation</label>
-      <input type="text" id="power-eq">
-      <!--
-      <button id="p-eq-btn">submit</button>
-    -->
-      <label for="">enter var value</label>
-      <input type="text" id="var-value">
-      <label for="">enter var error</label>
-      <input type="text" id="var-error">
-      <button id="v-v-b">submit</button>
-      <div id="power-field"></div>
-      <button id="p-reset"> reset</button>
-     </div>
-     <hr>
-    </div>
-     <footer>
-      <div class="container">
-      <div class="footer-row">
-        <div class="phara"><h2> why does the physics lab calculater look bad ? </h2>
-        <p> because i made it in harry 
-          and wasnt ment to be uploaded 
-          anywhere but i think it can be usefull to others that are going throw physics lab 104 106 </p>
-        
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-flask"></i>
+            <h1>Physics Lab Calculator</h1>
         </div>
-        <hr style="rotate: 180;
-        margin-left: 22px ; color: white;">
-      <div class="social"> 
-        <h2 class="phara-h"  style="text-align: center;"> my instagram account: </h2>
-      <ul class="footer-links">
-        <li  class="footer-link"> <a href="https://www.instagram.com/a_hypocrite105/" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
-      </ul>
-      </div>
-    </div>
-    </div>
-     </footer>
-	<script src="index.js"></script>
-  </body>
+    </header>
+
+    <main class="app-container">
+        <!-- Filter Section -->
+        <div class="card filter-section">
+            <div class="input-group">
+                <label for="calculator-filter" style="font-size: 1rem; color: var(--accent-color);"><i
+                        class="fa-solid fa-filter"></i> Select Calculator Type</label>
+                <select id="calculator-filter" class="custom-select">
+                    <option value="slope-calc">Calculate the Slope</option>
+                    <option value="percent-error-calc">Calculate Percentage Error</option>
+                    <option value="add-sub-error-calc">Addition & Subtraction Error</option>
+                    <option value="mult-div-error-calc">Multiplication & Division Error</option>
+                    <option value="power-error-calc">Power Equation Error</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="calculators-wrapper">
+            <!-- Slope Calculator -->
+            <section id="slope-calc" class="card calc-section active">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> Calculate the Slope</h2>
+                </div>
+                <div class="card-content">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="x1">Enter x₁</label>
+                            <input class="points-values" type="number" id="x1" placeholder="x₁">
+                        </div>
+                        <div class="input-group">
+                            <label for="y1">Enter y₁</label>
+                            <input class="points-values" type="number" id="y1" placeholder="y₁">
+                        </div>
+                        <div class="input-group">
+                            <label for="x2">Enter x₂</label>
+                            <input class="points-values" type="number" id="x2" placeholder="x₂">
+                        </div>
+                        <div class="input-group">
+                            <label for="y2">Enter y₂</label>
+                            <input class="points-values" type="number" id="y2" placeholder="y₂">
+                        </div>
+                    </div>
+                    <button id="slopeBtn" class="primary-btn">Calculate Slope</button>
+                    <div class="answer-box">
+                        <h3>The slope is: <span id="slope" class="highlight-text">-</span></h3>
+                    </div>
+                    <!-- Chart Canvas -->
+                    <div class="chart-container" style="position: relative; height:300px; width:100%">
+                        <canvas id="slopeChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- % Error Calculator -->
+            <section id="percent-error-calc" class="card calc-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-percent"></i> Calculate Percentage Error</h2>
+                </div>
+                <div class="card-content">
+                    <div class="input-group">
+                        <label for="x-theo">Theoretical Value</label>
+                        <input class="points-values" type="number" id="x-theo" placeholder="e.g. 9.8">
+                    </div>
+                    <div class="input-group">
+                        <label for="x-exp">Experimental Value</label>
+                        <input class="points-values" type="number" id="x-exp" placeholder="e.g. 9.6">
+                    </div>
+                    <button id="errore-btn" class="primary-btn">Calculate % Error</button>
+                    <div class="answer-box">
+                        <h3>The % error is: <span id="errore" class="highlight-text">-</span></h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Addition/Subtraction Error -->
+            <section id="add-sub-error-calc" class="card calc-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-plus-minus"></i> Addition & Subtraction Error</h2>
+                </div>
+                <div class="card-content">
+                    <div class="input-group">
+                        <label for="subbing-equation">Enter Equation (e.g. x + y - z)</label>
+                        <input id="subbing-equation" type="text" placeholder="x + y - z">
+                    </div>
+                    <button id="sub-btn" class="primary-btn">Setup Errors</button>
+                    <div id="errors-entering" class="dynamic-inputs">
+                    </div>
+                    <button type="button" id="sub-reset" class="secondary-btn">Reset</button>
+                </div>
+            </section>
+
+            <!-- Multiplication/Division Error -->
+            <section id="mult-div-error-calc" class="card calc-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-xmark"></i> / <i class="fa-solid fa-divide"></i> Multiplication & Division
+                        Error</h2>
+                </div>
+                <div class="card-content">
+                    <div class="input-group">
+                        <label for="multi-answer">Final Answer (Result of equation)</label>
+                        <input id="multi-answer" type="number" placeholder="Result">
+                    </div>
+                    <div class="input-group">
+                        <label for="multing-equation">Enter Equation (e.g. x * y / z)</label>
+                        <input id="multing-equation" type="text" placeholder="x * y / z">
+                    </div>
+                    <button id="multi-btn" class="primary-btn">Setup Errors</button>
+                    <div id="multi-errors-field" class="dynamic-inputs">
+                    </div>
+                    <button type="button" id="mul-reset" class="secondary-btn">Reset</button>
+                </div>
+            </section>
+
+            <!-- Power Error -->
+            <section id="power-error-calc" class="card calc-section">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-superscript"></i> Power Equation Error</h2>
+                </div>
+                <div class="card-content">
+                    <div class="input-group">
+                        <label for="power-eq">Enter Equation (e.g. x^2)</label>
+                        <input type="text" id="power-eq" placeholder="x^2">
+                    </div>
+                    <div class="input-group">
+                        <label for="var-value">Enter Variable Value</label>
+                        <input type="number" id="var-value" placeholder="Value">
+                    </div>
+                    <div class="input-group">
+                        <label for="var-error">Enter Variable Error</label>
+                        <input type="number" id="var-error" placeholder="Error">
+                    </div>
+                    <button id="v-v-b" class="primary-btn">Calculate Error</button>
+                    <div id="power-field" class="answer-box"></div>
+                    <button id="p-reset" class="secondary-btn">Reset</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>About Physics Lab Calculator</h3>
+                <p>Originally built in a hurry for Physics lab, now redesigned to look premium and function beautifully.
+                </p>
+            </div>
+            <div class="footer-social">
+                <h3>Connect with me</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.instagram.com/eyadthegh/" target="_blank" aria-label="Instagram"><i
+                                class="fa-brands fa-instagram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+
 </html>

@@ -1,236 +1,320 @@
-    // 
-	//SLOPE
-	
-	const e1 = document.getElementById("x1");
-	const e2 = document.getElementById("x2");
-	const d1 = document.getElementById("y1");
-	const d2 = document.getElementById("y2");
-	const slopeBtn = document.getElementById("slopeBtn")
-	let Slope;
-	const inputingS = () =>{
-		x1 = e1.value
-		x2 = e2.value
-		y1 = d1.value
-		y2 = d2.value
-		Slope = (y2-y1)/(x2-x1)
-		slope.innerText = Slope;
-	}
+document.addEventListener("DOMContentLoaded", () => {
+    // ----------------------------------------------------
+    // FILTER LOGIC
+    // ----------------------------------------------------
+    const filterSelect = document.getElementById("calculator-filter");
+    const calcSections = document.querySelectorAll(".calc-section");
 
-	slopeBtn.addEventListener('click',inputingS)
-	const slope = document.getElementById("slope");
+    filterSelect.addEventListener("change", (e) => {
+        const selectedId = e.target.value;
+        calcSections.forEach(section => {
+            if(section.id === selectedId) {
+                section.classList.add("active");
+            } else {
+                section.classList.remove("active");
+            }
+        });
+    });
 
-	// 
-	//%EROR
-	const erroreP = document.getElementById("errore")
-	const e3 = document.getElementById("x-theo")
-	const e4 =  document.getElementById("x-exp")
-	const erroreBtn = document.getElementById("errore-btn")
-	let errore;
-	const inputtingE = ()=>{
-		xtheo = e3.value
-		xexp =  e4.value
-		errore = ((xtheo - xexp)/xtheo) * 100
-		erroreP.innerText = "%" + errore
-		console.log("hi")
-	}
+    // ----------------------------------------------------
+    // SLOPE & CHART
+    // ----------------------------------------------------
+    const e1 = document.getElementById("x1");
+    const e2 = document.getElementById("x2");
+    const d1 = document.getElementById("y1");
+    const d2 = document.getElementById("y2");
+    const slopeBtn = document.getElementById("slopeBtn");
+    const slopeDisplay = document.getElementById("slope");
+    
+    let slopeChart;
 
-	erroreBtn.addEventListener('click',inputtingE)
-/*
-SUBBING ERROR
-*/
-const Seq = document.getElementById("subbing-equation");
-const sBtn = document.getElementById("sub-btn")
-const errorsField = document.getElementById("errors-entering")
-const erBtn  = document.createElement("button")
-const erText = document.createElement('p')
-const erH = document.createElement('h2')
+    const inputingS = () => {
+        const x1 = parseFloat(e1.value);
+        const x2 = parseFloat(e2.value);
+        const y1 = parseFloat(d1.value);
+        const y2 = parseFloat(d2.value);
 
+        if (isNaN(x1) || isNaN(x2) || isNaN(y1) || isNaN(y2)) {
+            slopeDisplay.innerText = "Invalid Input";
+            return;
+        }
 
-erH.innerHTML ="the error is: "
-erBtn.innerHTML = "submit"
+        if (x2 - x1 === 0) {
+            slopeDisplay.innerText = "Undefined (Vertical Line)";
+            return;
+        }
 
+        const Slope = (y2 - y1) / (x2 - x1);
+        slopeDisplay.innerText = Slope.toFixed(4);
 
-async function arrayingS (fie)  {
-	let conArr  = [];
-	fie = errorsField
-	let eq1 = Seq.value
-	let eq1Arr = eq1.split(/[+-]/)
-	
-	fie.appendChild(erBtn)
-	fie.appendChild(erText)
-	
-	for(let i = 0 ; i < eq1Arr.length;i++){
-		let j  = i+1
-		 inputs = await  crIn()
-		inputs.setAttribute('placeholder', "enter element " + j  + " error")
-		inputs.className = "EInput" + i
-		fie.appendChild(inputs);
-		conArr.push(eq1Arr[i].split("*"))
-}
+        // Update Chart
+        updateChart(x1, y1, x2, y2);
+    };
 
-console.log(conArr)
-let cons;
-let subAnswer = 0;
-let erAnswer;
-let z ;
-let k ;
-const ErrorAn = () =>{
-	for(let i = 0 ; i < eq1Arr.length;i++){
-			if(!isNaN(conArr[i][0])){
-				cons = parseFloat(conArr[i][0])
-			}else{
-				cons = 1
-			}
-			console.log()
-		z = document.getElementsByClassName("EInput" + i)
-		console.log(cons)
-		console.log(z)
-		k =  cons * (z[0].value)
-		console.log(z[0].value)
-		console.log(k)
-		subAnswer +=  k**2;
-	}
-	erAnswer = Math.sqrt(subAnswer);
-	erText.innerText = erAnswer
-}
-async function crIn  () {
-	//for(let i = 0 ; i < eq1Arr.length;i++){
-	const input = document.createElement("input");
-	//x.id = "subEIN" + i+1}
-	return input;
-//}
-}
-const SubReset = () => {
-	errorsField.innerHTML = " ";
-}
-const subReset = document.getElementById('sub-reset')
-subReset.addEventListener('click',SubReset)
-erBtn.addEventListener('click', ErrorAn)
-}
-sBtn.addEventListener("click",arrayingS);
-/*
+    slopeBtn.addEventListener('click', inputingS);
 
-multi
+    const updateChart = (x1, y1, x2, y2) => {
+        const ctx = document.getElementById('slopeChart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (slopeChart) {
+            slopeChart.destroy();
+        }
 
-*/
-const mulReset = document.getElementById("mul-reset")
- const merText = document.createElement('p')
-const multiErrorField = document.getElementById("multi-errors-field")
- const MBtn = document.getElementById("multi-answer-btn")
-const Meq  = document.getElementById('multing-equation')
-const ans = document.getElementById("multi-answer")
-const merBtn = document.createElement("button")
-const MEqB = document.getElementById("multi-btn")
-merBtn.innerText = "submit"
-const An = () => {
-	let an  =ans.value
-	console.log(an)
-	return an
-}
-async function arrayingM ()  {
-	console.log('created')
-	eq1 = Meq.value
-	eq1Arr = eq1.split(/[*\/]/)
-	console.log(eq1Arr)
-	
-	multiErrorField.appendChild(merBtn)
-	multiErrorField.appendChild(merText)
-	for(let i = 0 ; i < eq1Arr.length;i++){
-		let j  = i+1
-		inputs = await crIn()
-		inputs.setAttribute('placeholder', "enter element " + j  + "value")
-		inputs.className = "m-answer" + i
-		multiErrorField.appendChild(inputs);
-		minputs= await crIn()
-		
-		minputs.setAttribute('placeholder', "enter element " + j  + "error")
-		minputs.className = "m-error" + i
-		multiErrorField.appendChild(minputs);
-}
-let MultiAnswer = 0;
-let MerAnswer;
-let z ;
-let k ;
-let y ;
-const ErrorAn = () =>{
-	for(let i = 0 ; i < eq1Arr.length;i++){
-		z = document.getElementsByClassName("m-error" + i)
-		y = document.getElementsByClassName("m-answer" + i)
-		k = z[0].value
-		n = y[0].value
-		MultiAnswer += (k/n) **2
-	}
-	MerAnswer =   ans.value * Math.sqrt(MultiAnswer);
-	merText.innerText =  "the error is : "  + MerAnswer
-	multiErrorField.appendChild(merText)
-}
-async function crIn  () {
-	//for(let i = 0 ; i < eq1Arr.length;i++){
-	const input = document.createElement("input");
-	
-	//x.id = "subEIN" + i+1}
-	return input ;
-//}
-}
-const MubReset = () => {
-multiErrorField.innerHTML = " ";
-}
-const subReset = document.getElementById('sub-reset')
-mulReset.addEventListener('click',MubReset)
-merBtn.addEventListener('click', ErrorAn)
-}
-MBtn.addEventListener('click', An);
-MEqB.addEventListener('click',arrayingM)
-/*
+        slopeChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Slope Line',
+                    data: [{x: x1, y: y1}, {x: x2, y: y2}],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    showLine: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#cbd5e1' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#cbd5e1' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#f8fafc' }
+                    }
+                }
+            }
+        });
+    };
 
-power error
+    // ----------------------------------------------------
+    // % ERROR
+    // ----------------------------------------------------
+    const erroreDisplay = document.getElementById("errore");
+    const e3 = document.getElementById("x-theo");
+    const e4 = document.getElementById("x-exp");
+    const erroreBtn = document.getElementById("errore-btn");
 
-*/
-const varE = document.getElementById("var-error")
-const r = document.getElementById("r")
-const rBtn = document.getElementById("r-btn")
-const pEq = document.getElementById("power-eq")
-const pEqB = document.getElementById("p-eq-btn")
-//let res ;
-//let powEr ;
-//let vE ;
-const powerField = document.getElementById("power-field")
-const powText = document.createElement("p")
-const v = document.getElementById("var-value")
-const vVB = document.getElementById("v-v-b")
-let varV;
-const gVV = () =>{
-	varV = v.value
-}
+    const inputtingE = () => {
+        const xtheo = parseFloat(e3.value);
+        const xexp = parseFloat(e4.value);
+        
+        if (isNaN(xtheo) || isNaN(xexp) || xtheo === 0) {
+            erroreDisplay.innerText = "Invalid Input";
+            return;
+        }
 
-const gVE = () =>{
-	vE = varE.value
-}
+        const errore = ((xtheo - xexp) / xtheo) * 100;
+        erroreDisplay.innerText = "%" + Math.abs(errore).toFixed(4);
+    };
 
-const result = () =>{
-	 res = r.value
-}
+    erroreBtn.addEventListener('click', inputtingE);
+
+    // ----------------------------------------------------
+    // ADDITION / SUBTRACTION ERROR
+    // ----------------------------------------------------
+    const Seq = document.getElementById("subbing-equation");
+    const sBtn = document.getElementById("sub-btn");
+    const errorsField = document.getElementById("errors-entering");
+    const subReset = document.getElementById('sub-reset');
+
+    let subEqArr = [];
+    let subConArr = [];
+
+    const createInput = (placeholderText) => {
+        const div = document.createElement("div");
+        div.className = "input-group";
+        const input = document.createElement("input");
+        input.type = "number";
+        input.placeholder = placeholderText;
+        div.appendChild(input);
+        return { wrapper: div, input: input };
+    };
+
+    const arrayingS = () => {
+        errorsField.innerHTML = "";
+        subConArr = [];
+
+        // Fix space issue
+        let eq1 = Seq.value.replace(/\s+/g, '');
+        if (!eq1) return;
+
+        subEqArr = eq1.split(/[+-]/);
+        
+        const inputsArray = [];
+        subEqArr.forEach((element, i) => {
+            const j = i + 1;
+            const inputObj = createInput("Enter element " + j + " error");
+            inputsArray.push(inputObj.input);
+            errorsField.appendChild(inputObj.wrapper);
+            subConArr.push(element.split("*"));
+        });
+
+        const erBtn = document.createElement("button");
+        erBtn.className = "primary-btn";
+        erBtn.innerText = "Calculate Sub/Add Error";
+        
+        const erTextWrap = document.createElement("div");
+        erTextWrap.className = "answer-box";
+        erTextWrap.innerHTML = `<h3>The error is: <span class="highlight-text">-</span></h3>`;
+        const resultSpan = erTextWrap.querySelector('span');
+
+        errorsField.appendChild(erBtn);
+        errorsField.appendChild(erTextWrap);
+
+        const ErrorAn = () => {
+            let subAnswer = 0;
+            for (let i = 0; i < subEqArr.length; i++) {
+                let cons = !isNaN(parseFloat(subConArr[i][0])) ? parseFloat(subConArr[i][0]) : 1;
+                // Check if element starts with alphabet instead of number (e.g., '2*x' vs 'x')
+                if(subConArr[i].length === 1 && isNaN(parseFloat(subConArr[i][0]))) {
+                    cons = 1; 
+                }
+                
+                let errorVal = parseFloat(inputsArray[i].value) || 0;
+                let k = cons * errorVal;
+                subAnswer += Math.pow(k, 2);
+            }
+            const erAnswer = Math.sqrt(subAnswer);
+            resultSpan.innerText = erAnswer.toFixed(4);
+        };
+
+        erBtn.addEventListener('click', ErrorAn);
+    };
+
+    sBtn.addEventListener("click", arrayingS);
+    subReset.addEventListener('click', () => {
+        errorsField.innerHTML = "";
+        Seq.value = "";
+    });
 
 
-const pEe = () =>{
-	let arr = pEq.value.split("^")
-	arr[1] = parseInt(arr[1])
-	arr[0] = varV
-	res = arr[0]**arr[1]
-	powEr = (res*(arr[1]*vE))/arr[0]
-	powText.innerText = "the equation error is :" + powEr
-	powerField.appendChild(powText)
-}
-const caller = () =>{
-	gVE()
-	gVV()
-	pEe()
-}
-vVB.addEventListener("click",caller)
-const pReset = document.getElementById("p-reset")
-pReset.addEventListener("click", () =>{
-	powerField.innerHTML = " "
-	pEq.value = 0
-	v.value = 0
-	varE.value = 0
-})
+    // ----------------------------------------------------
+    // MULTIPLICATION / DIVISION ERROR
+    // ----------------------------------------------------
+    const multiErrorField = document.getElementById("multi-errors-field");
+    const Meq = document.getElementById('multing-equation');
+    const ans = document.getElementById("multi-answer");
+    const MEqB = document.getElementById("multi-btn");
+    const mulReset = document.getElementById("mul-reset");
+
+    let mulEqArr = [];
+
+    const arrayingM = () => {
+        multiErrorField.innerHTML = "";
+        
+        // sanitize spaces
+        let eq1 = Meq.value.replace(/\s+/g, '');
+        if (!eq1) return;
+
+        mulEqArr = eq1.split(/[*\/]/);
+        const inputsData = [];
+
+        mulEqArr.forEach((element, i) => {
+            const j = i + 1;
+            
+            // Value input
+            const valInput = createInput("Enter element " + j + " value");
+            multiErrorField.appendChild(valInput.wrapper);
+            
+            // Error input
+            const errInput = createInput("Enter element " + j + " error");
+            multiErrorField.appendChild(errInput.wrapper);
+            
+            inputsData.push({ valueIn: valInput.input, errIn: errInput.input });
+        });
+
+        // Add calc button
+        const merBtn = document.createElement("button");
+        merBtn.className = "primary-btn";
+        merBtn.innerText = "Calculate Mult/Div Error";
+        
+        // Add result display
+        const textWrap = document.createElement("div");
+        textWrap.className = "answer-box";
+        textWrap.innerHTML = `<h3>The error is: <span class="highlight-text">-</span></h3>`;
+        const resultSpan = textWrap.querySelector('span');
+
+        multiErrorField.appendChild(merBtn);
+        multiErrorField.appendChild(textWrap);
+
+        const ErrorAnM = () => {
+            let MultiAnswer = 0;
+            const finalAns = parseFloat(ans.value) || 0;
+
+            for (let i = 0; i < mulEqArr.length; i++) {
+                let errVal = parseFloat(inputsData[i].errIn.value) || 0;
+                let trueVal = parseFloat(inputsData[i].valueIn.value) || 0;
+                if (trueVal !== 0) {
+                    MultiAnswer += Math.pow(errVal / trueVal, 2);
+                }
+            }
+            const MerAnswer = finalAns * Math.sqrt(MultiAnswer);
+            resultSpan.innerText = MerAnswer.toFixed(4);
+        };
+
+        merBtn.addEventListener('click', ErrorAnM);
+    };
+
+    MEqB.addEventListener('click', arrayingM);
+    mulReset.addEventListener('click', () => {
+        multiErrorField.innerHTML = "";
+        Meq.value = "";
+        ans.value = "";
+    });
+
+
+    // ----------------------------------------------------
+    // POWER ERROR
+    // ----------------------------------------------------
+    const varE = document.getElementById("var-error");
+    const v = document.getElementById("var-value");
+    const pEq = document.getElementById("power-eq");
+    const vVB = document.getElementById("v-v-b");
+    const powerField = document.getElementById("power-field");
+    const pReset = document.getElementById("p-reset");
+
+    const calculatePowerError = () => {
+        let eq = pEq.value.replace(/\s+/g, '');
+        let varV = parseFloat(v.value) || 0;
+        let vErr = parseFloat(varE.value) || 0;
+
+        if (!eq.includes('^')) {
+            powerField.innerHTML = `<h3>Invalid equation. Expected format: x^n</h3>`;
+            return;
+        }
+
+        let arr = eq.split("^");
+        let power = parseFloat(arr[1]) || 0;
+
+        let res = Math.pow(varV, power);
+        let powEr = (res * (power * vErr)) / varV;
+
+        if (isNaN(powEr)) {
+            powerField.innerHTML = `<h3>The equation error is: <span class="highlight-text">Invalid</span></h3>`;
+        } else {
+            powerField.innerHTML = `<h3>The equation error is: <span class="highlight-text">${powEr.toFixed(4)}</span></h3>`;
+        }
+    };
+
+    vVB.addEventListener("click", calculatePowerError);
+    
+    pReset.addEventListener("click", () => {
+        powerField.innerHTML = "";
+        pEq.value = "";
+        v.value = "";
+        varE.value = "";
+    });
+});
